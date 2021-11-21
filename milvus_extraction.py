@@ -6,16 +6,11 @@ Created on Wed Nov  3 09:33:20 2021
 @author: malav
 """
 
-
-import os
-import pandas as pd
 import numpy as np
 from PIL import Image
 from pathlib import Path
-import matplotlib.pyplot as plt
 import time
 import cv2
-from pathlib import Path
 from tensorflow.keras.applications.vgg16 import preprocess_input
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras import applications
