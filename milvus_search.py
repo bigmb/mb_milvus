@@ -165,7 +165,7 @@ def main():
     res_csv['similar_ids'] = res_names
     res_csv['distance'] = res_dis
     
-    return res_csv
+    res_csv.to_csv(args.save_csv)
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
@@ -177,6 +177,8 @@ if __name__=='__main__':
                         help="number of images to save in results. Default '10'")
     parser.add_argument('-batch_size',type=int,default='8',
                         help="Batch size for extracting images. Default='8'")
+    parser.add_argument('-save_csv',type=str,default='/home/malav/Desktop',
+                        help="Final CSV file save location. Default='/home/malav/Desktop'")
     args = parser.parse_args()
 
     try:
