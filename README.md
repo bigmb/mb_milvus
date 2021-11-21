@@ -28,3 +28,8 @@ Install all dependent libraries:
   ```bash
   pip install -r requirements.txt
   ```
+## 3. Run the file
+
+'''
+./milvus_search.py -path_loc "path_to_img_folder" -num "number of simliar images" -batch_size "Extraction batch size if needed" -collection_name "name_of_the_collection"
+'''
