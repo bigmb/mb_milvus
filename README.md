@@ -1,5 +1,6 @@
 # Image-Similarity-Search-Milvus
-Image Similarity search build on Milvus 
+Image Similarity search build on Milvus.
+Get similar images from the dataset. Can be used for augmentation, diffusion models and finding similar patterns in images.  
 
 ## 1. Getting Started
 
