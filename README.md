@@ -49,3 +49,7 @@ Running the search file
 ```
 ./milvus_search.py -path_loc "path_to_img_folder" -num "number of simliar images" -batch_size "Extraction batch size if needed" -collection_name "name_of_the_collection" -save_csv "Saving location of the final CSV output"
 ```
+
+##Running video
+
+https://github.com/bigmb/Image-Similarity-Search-Milvus/blob/main/milvus_movie.mp4
