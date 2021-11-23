@@ -52,4 +52,4 @@ Running the search file
 
 ##Running video
 
-https://github.com/bigmb/Image-Similarity-Search-Milvus/blob/main/milvus_movie.mp4
+https://user-images.githubusercontent.com/14040051/143135715-b0d6461c-e63f-40c2-869a-6331e826d9a4.mp4
