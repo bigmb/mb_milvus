@@ -50,6 +50,8 @@ Running the search file
 ./milvus_search.py -path_loc "path_to_img_folder" -num "number of simliar images" -batch_size "Extraction batch size if needed" -collection_name "name_of_the_collection" -save_csv "Saving location of the final CSV output"
 ```
 
-##Running video
+## 4. Running video
 
 https://user-images.githubusercontent.com/14040051/143135715-b0d6461c-e63f-40c2-869a-6331e826d9a4.mp4
+
+
