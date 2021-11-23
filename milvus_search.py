@@ -72,7 +72,7 @@ def main():
             t2_extract_file.append(t1[j])
             t2_extract_name.append(t1_names[j])
         
-        print(f"Files left to extract : {len(t2_extract_name)}")
+    print(f"Files left to extract : {len(t2_extract_name)}")
 
     ##Feature extraction
     batches = batch_create(t2_extract_file,batch_size)
