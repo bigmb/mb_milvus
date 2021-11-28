@@ -2,6 +2,8 @@
 Image Similarity search build on Milvus.
 Get similar images from the dataset. Can be used for augmentation, diffusion models and finding similar patterns in images.  
 
+[![HitCount](https://github.com/bigmb/Image-Similarity-Search-Milvus.svg)](http://hits.dwyl.io/bigmbmage-Similarity-Search-Milvus)
+
 ## 1. Getting Started
 
 Clone the repo:
