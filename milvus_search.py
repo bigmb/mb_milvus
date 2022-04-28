@@ -122,7 +122,7 @@ def main():
     mr = collection.insert(entities)
     print(mr)
     print(mr.primary_keys[:10])
-    pymilvus.utility.get_connection().flush([collection_name])
+    #pymilvus.utility.get_connection().flush([collection_name])
 
     index_param = {
             "metric_type":"L2",
@@ -132,7 +132,7 @@ def main():
     collection.create_index(field_name=field_name, index_params=index_param)
     print(collection.index().params)
     search_params = {"metric_type": "L2", "params": {"nprobe": 50}}
-    collection.release()
+    #collection.release()
     collection.load()
 
 
