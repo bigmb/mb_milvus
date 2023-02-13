@@ -14,8 +14,9 @@ from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Colle
 import pymilvus
 import glob
 import numpy as np
-from milvus_extraction import FeatureExtractor, batch_create
+from mb_milvus.src.milvus_extraction import FeatureExtractor, batch_create
 import argparse
+from mb_utils.src.logging import logger
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -28,7 +29,11 @@ def main():
     collection_name = args.collection_name
     field_name = args.collection_name
     no_of_images = args.num ##no of images to search
-    
+    logging = args.logging
+    if logging == 'True':
+        logger = logger
+    else:
+        logger = None
     
     t1 =glob.glob(path_loc+'*')
     t1_im =path_loc+'images_fea'
@@ -37,7 +42,10 @@ def main():
     i=0
     for i in range(len(t1)):
         if t1[i]==t1_im:
-            print('removing the name of images_fea from the list')
+            if logger:
+                logger.info('removing the name of images_fea from the list')
+            else:
+                print('removing the name of images_fea from the list')
             t1_im_i = i
 
     t1.pop(t1_im_i);
@@ -47,15 +55,25 @@ def main():
 
     path_fea = path_loc + 'images_fea'
     if os.path.exists(path_fea)==True:
-        print("File already exists")
+        if logger:
+            logger.info("File already exists")
+        else:
+            print("File already exists")
     else:
         try:
             os.mkdir(path_fea)
         except OSError:
-            print("Creation of the directory %s failed" % path_fea)
+            if logger:
+                logger.info("Creation of the directory %s failed" % path_fea)
+            else:
+                print("Creation of the directory %s failed" % path_fea)
         else:
-            print("Successfully created the directory %s" % path_fea)
-            print("Extracting all the features now")
+            if logger:
+                logger.info("Successfully created the directory %s" % path_fea)
+                logger.info("Extracting all the features now")
+            else:
+                print("Successfully created the directory %s" % path_fea)
+                print("Extracting all the features now")
 
 
     t2_names=[]
@@ -71,15 +89,21 @@ def main():
         if t1_names[j] not in t2_names:
             t2_extract_file.append(t1[j])
             t2_extract_name.append(t1_names[j])
-        
-    print(f"Files left to extract : {len(t2_extract_name)}")
+
+    if logger:
+        logger.info(f"Files left to extract : {len(t2_extract_name)}")
+    else:
+        print(f"Files left to extract : {len(t2_extract_name)}")
 
     ##Feature extraction
     batches = batch_create(t2_extract_file,batch_size)
     batches_names= batch_create(t2_extract_name,batch_size)
 
     if len(batches)!=0:
-        print('extracting the image files')
+        if logger:
+            logger.info('extracting the image files')
+        else:
+            print('extracting the image files')
         fea_extract = FeatureExtractor('ResNet50')
         fea_extract.batch_extract(batches,batches_names,batch_size,write_to=path_fea)
 
@@ -96,32 +120,56 @@ def main():
     t3_values=list(t3_names_dict.values())
     ##Calling milvus
     connections.connect("default", host='localhost', port='19530')
-    print('Connections Establised with Milvus')
+    if logger:
+        logger.info('Connections Establised with Milvus')
+    else:
+        print('Connections Establised with Milvus')
 
     ##Search
-    print('All extracted and Milvus connected')
+    if logger:
+        logger.info('Searching the images')
+    else:
+        print('All extracted and Milvus connected')
     dim = len(t3_emb_data[0])
 
     #checking if the collection is created
     list_of_collections = pymilvus.utility.get_connection().list_collections()
-    print('list of collections : {}'.format(list_of_collections))
+    if logger:
+        logger.info('list of collections : {}'.format(list_of_collections))
+    else:
+        print('list of collections : {}'.format(list_of_collections))
   
     if collection_name in list_of_collections:
-        print('collection name already exists. Pick another because I was lazy and didnt write the code to add a partition or remove and create a new one')
-        print('If you need it, let me know by creating an issue and I will add it in a day.')
+        if logger:
+            logger.info('collection name already exists. Pick another because I was lazy and didnt write the code to add a partition or remove and create a new one')
+            logger.info('If you need it, let me know by creating an issue and I will add it in a day.')
+        else:
+            print('collection name already exists. Pick another because I was lazy and didnt write the code to add a partition or remove and create a new one')
+            print('If you need it, let me know by creating an issue and I will add it in a day.')
     
     event_id_field = FieldSchema(name="id", dtype=DataType.INT64, description="id_location",is_primary=True)
     field = FieldSchema(name=field_name, dtype=DataType.FLOAT_VECTOR, dim=dim)
     schema = CollectionSchema(fields=[event_id_field,field],auto_id=False,description="event_munet UM Model collection")
     collection = Collection(name=collection_name, schema=schema)  
-    print('new collection created')
+    if logger:
+        logger.info('new collection created')
+    else:
+        print('new collection created')
     list_of_collections = pymilvus.utility.get_connection().list_collections()
-    print('list of collections : {}'.format(list_of_collections))
+    if logger:
+        logger.info('list of collections : {}'.format(list_of_collections))
+    else:
+        print('list of collections : {}'.format(list_of_collections))
     entities = [t3_values,t3_emb_data]
     
     mr = collection.insert(entities)
-    print(mr)
-    print(mr.primary_keys[:10])
+    if logger:
+        logger.info('inserted entities')
+        logger.info('mr : {}'.format(mr))
+        logger.info('mr.primary_keys[:10] : {}'.format(mr.primary_keys[:10]))
+    else:    
+        print(mr)
+        print(mr.primary_keys[:10])
     #pymilvus.utility.get_connection().flush([collection_name])
 
     index_param = {
@@ -130,7 +178,11 @@ def main():
             "params":{"nlist":1024}
             }
     collection.create_index(field_name=field_name, index_params=index_param)
-    print(collection.index().params)
+    if logger:
+        logger.info('index created')
+        logger.info('index params : {}'.format(collection.index().params))
+    else:
+        print(collection.index().params)
     search_params = {"metric_type": "L2", "params": {"nprobe": 50}}
     #collection.release()
     collection.load()
@@ -141,7 +193,10 @@ def main():
         xbc.append(list(t3_emb_data[i]))
     
     
-    print('Starting Search for complete file')
+    if logger:
+        logger.info('Starting Search for complete file')
+    else:
+        print('Starting Search for complete file')
     results = collection.search(xbc[:],field_name,param=search_params,limit=no_of_images,expr=None)
 
     res_ids = []
@@ -150,7 +205,10 @@ def main():
         res_ids.append(results[i].ids)
         res_dis.append(results[i].distances)
 
-    print("Search Done. Adidng results to csv")
+    if logger:
+        logger.info('Search Done. Adidng results to csv')
+    else:
+        print("Search Done. Adidng results to csv")
 
     res_names=[]
     for l in range(len(res_ids)):
@@ -179,6 +237,7 @@ if __name__=='__main__':
                         help="Batch size for extracting images. Default='8'")
     parser.add_argument('-save_csv',type=str,default='/home/malav/Desktop',
                         help="Final CSV file save location. Default='/home/malav/Desktop'")
+    parser.add_argument('-logging',type=bool,default=False,help='logging tool for logger msgs. Uses mb_utils.src.logging. Default=False')
     args = parser.parse_args()
 
     try:
