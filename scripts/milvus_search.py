@@ -18,6 +18,7 @@ from mb_milvus.src.milvus_extraction import FeatureExtractor, batch_create
 import argparse
 from mb_utils.src.logging import logger
 
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 

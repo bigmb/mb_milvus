@@ -25,6 +25,8 @@ argparse
 cv2
 pathlib
 PIL
+mb_utils
+mb_pandas
 
 ```
 Install all dependent libraries:
