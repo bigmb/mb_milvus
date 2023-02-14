@@ -9,7 +9,7 @@ Get similar images from the dataset. Can be used for augmentation, diffusion mod
 Clone the repo:
 
   ```bash
-  git clone https://github.com/bigmb/Image-Similarity-Search-Milvus.git
+  git clone https://github.com/bigmb/mb_milvis.git
   ```
   
 ## 2. Requirements
