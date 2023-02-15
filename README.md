@@ -12,6 +12,12 @@ Clone the repo:
   git clone https://github.com/bigmb/mb_milvis.git
   ```
   
+
+Pip install
+  ```
+  pip install mb_milvus
+  ```
+
 ## 2. Requirements
 
 ```
