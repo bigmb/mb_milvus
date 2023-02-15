@@ -12,7 +12,7 @@ setup(
     author=["Malav Bateriwala"],
     packages=find_namespace_packages(include=["mb_milvus.*"]),
     #packages=find_packages(),
-    scripts=['scripts/milvus_search'],
+    scripts=['scripts/milvus_search.py'],
     install_requires=[
         "numpy",
         "pandas",],

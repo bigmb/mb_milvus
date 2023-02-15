@@ -1,0 +1,12 @@
+LICENSE
+README.md
+setup.py
+mb_milvus.egg-info/PKG-INFO
+mb_milvus.egg-info/SOURCES.txt
+mb_milvus.egg-info/dependency_links.txt
+mb_milvus.egg-info/requires.txt
+mb_milvus.egg-info/top_level.txt
+mb_milvus/src/dim_reduction.py
+mb_milvus/src/milvus_extraction.py
+mb_milvus/src/version.py
+scripts/milvus_search.py

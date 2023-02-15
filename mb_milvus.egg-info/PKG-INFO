@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: mb-milvus
+Version: 1.0.202302112246
+Summary: Basic milvus package
+Author: ['Malav Bateriwala']
+Requires-Python: >=3.8
+License-File: LICENSE
