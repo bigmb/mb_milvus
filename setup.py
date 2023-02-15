@@ -12,9 +12,8 @@ setup(
     author=["Malav Bateriwala"],
     packages=find_namespace_packages(include=["mb_milvus.*"]),
     #packages=find_packages(),
-    scripts=['scripts/df_profile','scripts/df_view'],
+    scripts=['scripts/milvus_search'],
     install_requires=[
         "numpy",
-        "pandas",
-        "colorama",],
+        "pandas",],
     python_requires='>=3.8',)
