@@ -14,6 +14,7 @@ from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Colle
 import pymilvus
 import glob
 import numpy as np
+from mb_utils.src.verify_image import verify_image
 from mb_milvus.src.milvus_extraction import FeatureExtractor, batch_create
 import argparse
 from mb_utils.src.logging import logger
@@ -27,6 +28,7 @@ def main():
     #defining the variables
     path_loc = args.path_loc 
     batch_size=args.batch_size
+    verify_image = args.verify_image
     collection_name = args.collection_name
     field_name = args.collection_name
     no_of_images = args.num ##no of images to search
@@ -99,6 +101,14 @@ def main():
     ##Feature extraction
     batches = batch_create(t2_extract_file,batch_size)
     batches_names= batch_create(t2_extract_name,batch_size)
+
+    if verify_image:
+        if logger:
+            logger.info('verifying the image files')
+        else:
+            print('verifying the image files')
+        verfied = [verify_image(t2_extract_file[i],logger=logger) for i in range(len(t2_extract_file))]
+
 
     if len(batches)!=0:
         if logger:
@@ -238,6 +248,8 @@ if __name__=='__main__':
                         help="Batch size for extracting images. Default='8'")
     parser.add_argument('-save_csv',type=str,default='/home/malav/Desktop',
                         help="Final CSV file save location. Default='/home/malav/Desktop'")
+    parser.add_argument('-verfiy_image', type=bool, default=False,
+                        help="Verify the images. Default=False")
     parser.add_argument('-logging',type=bool,default=False,help='logging tool for logger msgs. Uses mb_utils.src.logging. Default=False')
     args = parser.parse_args()
 
